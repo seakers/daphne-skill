@@ -5,8 +5,8 @@ Skill that interfaces with Daphne
 Skill interfaces with Daphne to aid in Pre-Phase A and Phase A mission design.
 
 ## Examples
-* "evaluate the tradespace"
-* "create an architecture"
+* "Why does this design have this science benefit?"
+* "What do you think of this design?"
 
 ## Credits
 Gabriel Apaza
