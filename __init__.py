@@ -7,9 +7,31 @@
 # in the requirements.txt file so the library is installed properly
 # when the skill gets installed later by a user.
 
-from adapt.intent import IntentBuilder
+from adapt.intent        import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler
-from mycroft.util.log import LOG
+from mycroft.util.log    import LOG
+import websocket
+
+
+# Personal Imports
+import os
+
+
+
+
+# Useful functions
+# get_response() --> Asks the user a question and get's a response
+
+
+
+
+
+
+
+
+
+
+
 
 # Each skill is contained within its own class, which inherits base methods
 # from the MycroftSkill class.  You extend this class as shown below.
@@ -21,34 +43,102 @@ class DaphneSkill(MycroftSkill):
     def __init__(self):
         super(DaphneSkill, self).__init__(name="DaphneSkill")
 
-        # Initialize working variables used within the skill.
-        self.count = 0
 
-    # The "handle_xxxx_intent" function is triggered by Mycroft when the
-    # skill's intent is matched.  The intent is defined by the IntentBuilder()
-    # pieces, and is triggered when the user's utterance matches the pattern
-    # defined by the keywords.  In this case, the match occurs when one word
-    # is found from each of the files:
-    #    vocab/en-us/Hello.voc
-    #    vocab/en-us/World.voc
-    # In this example that means it would match on utterances like:
-    #   'Hello world'
-    #   'Howdy you great big world'
-    #   'Greetings planet earth'
-    @intent_handler(IntentBuilder("").require("Hello").require("World"))
-    def handle_hello_world_intent(self, message):
-        # In this case, respond by simply speaking a canned response.
-        # Mycroft will randomly speak one of the lines from the file
-        #    dialogs/en-us/hello.world.dialog
-        self.speak_dialog("hello.world")
 
-    @intent_handler(IntentBuilder("").require("Count").require("Dir"))
-    def handle_count_intent(self, message):
-        if message.data["Dir"] == "up":
-            self.count += 1
-        else:  # assume "down"
-            self.count -= 1
-        self.speak_dialog("count.is.now", data={"count": self.count})
+        # ----- Initialize working variables used within the skill -----
+
+        # --> Connection Variables
+
+
+
+    def initialize(self):
+        dir_path      = os.path.dirname(os.path.realpath(__file__)) # /opt/mycroft/skills/daphne-skill
+
+
+        # ----- Incoming Message Events -----
+        self.add_event('skill.daphneskill.in.teacher',     self.handle_incoming_teacher_intent)   # -Teacher
+        self.add_event('skill.daphneskill.in.historian',   self.handle_incoming_historian_intent) # -Historian
+        self.add_event('skill.daphneskill.in.critic',      self.handle_incoming_critic_intent)    # -Critic
+        self.add_event('skill.daphneskill.in.analyst',     self.handle_incoming_analyst_intent)   # -Analyst
+        self.add_event('skill.daphneskill.in.datamining',  self.handle_incoming_datamining_intent)# -Datamining
+
+
+
+        self.speak("Loaded")
+
+
+
+
+
+
+
+    ###### Incoming Message Functions #####
+
+    # Teacher
+    def handle_incoming_teacher_intent(self, message):
+        return 0
+
+    # Historian
+    def handle_incoming_historian_intent(self, message):
+        return 0
+
+    # Critic
+    def handle_incoming_critic_intent(self, message):
+        return 0
+
+    # Analyst
+    def handle_incoming_analyst_intent(self, message):
+        return 0
+
+    # Datamining
+    def handle_incoming_datamining_intent(self, message):
+        return 0
+
+
+
+
+
+    ##### Outgoing Message Functions - User Intents #####
+
+    # Teacher
+    @intent_handler(IntentBuilder("OutgoingTeacherIntent").require("Connect"))
+    def handle_outgoing_teacher_intent(self, message):
+        return 0
+
+
+    # Historian
+    @intent_handler(IntentBuilder("OutgoingHistorianIntent").require("Connect"))
+    def handle_outgoing_historian_intent(self, message):
+        return 0
+
+
+    # Critic
+    @intent_handler(IntentBuilder("OutgoingCriticIntent").require("Connect"))
+    def handle_outgoing_critic_intent(self, message):
+        return 0
+
+
+    # Analyst
+    @intent_handler(IntentBuilder("OutgoingAnalystIntent").require("Connect"))
+    def handle_outgoing_analyst_intent(self, message):
+        return 0
+
+
+    # Datamining
+    @intent_handler(IntentBuilder("OutgoingDataminingIntent").require("Connect"))
+    def handle_outgoing_datamining_intent(self, message):
+        return 0
+
+
+
+
+
+
+
+
+
+
+
 
     # The "stop" method defines what Mycroft does when told to stop during
     # the skill's execution. In this case, since the skill's functionality
@@ -58,6 +148,10 @@ class DaphneSkill(MycroftSkill):
     #
     # def stop(self):
     #    return False
+
+
+
+    
 
 # The "create_skill()" method is used to create an instance of the skill.
 # Note that it's outside the class itself.
